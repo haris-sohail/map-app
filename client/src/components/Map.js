@@ -35,36 +35,16 @@ function Map({ locations }) {
         return inside;
     };
 
-    const getRandomColor = () => {
-        const letters = '0123456789ABCDEF';
-        let color = '#';
-        for (let i = 0; i < 5; i++) {
-            color += letters[Math.floor(Math.random() * 16)];
-        }
-        color += Math.floor(Math.random() * 10);
-        return color;
-    };
-
     const getRegionStyle = (feature) => {
         const coordinates = feature.geometry.coordinates[0];
         const selected = locations.some(location =>
             pointInPolygon(location, coordinates)
         );
 
-        // If the region is selected and doesn't have a color, assign a new random color
-        if (selected && !regionColors[feature.properties.shapeName]) {
-            setRegionColors((prevColors) => ({
-                ...prevColors,
-                [feature.properties.shapeName]: getRandomColor()
-            }));
-        }
-
-        const color = regionColors[feature.properties.shapeName] || 'blue';
-
         return {
-            color: selected ? color : 'purple',
+            color: selected ? 'red' : 'purple',
             weight: 2,
-            fillColor: selected ? color : 'blue',
+            fillColor: selected ? 'red' : 'blue',
             fillOpacity: 0.2
         };
     };
