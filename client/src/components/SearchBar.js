@@ -9,7 +9,6 @@ function SearchBar({ onSearch }) {
         setAllSuggestions({
             'Islamabad': '33.6995 73.0363',
             'Lahore': '31.5497 74.3436',
-            'Karachi': '24.8607 67.0011',
             'Quetta': '30.1798 66.9750',
             'Peshawar': '34.0151 71.5249',
             'Murree': '33.9078 73.3894',
