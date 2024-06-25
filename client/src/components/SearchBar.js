@@ -24,17 +24,24 @@ function SearchBar({ onSearch }) {
 
     const handleSelectChange = (event) => {
         const selectedValue = event.target.value;
+
         if (!selectedLocations.includes(selectedValue)) {
             const newSelectedLocations = [...selectedLocations, selectedValue];
             setSelectedLocations(newSelectedLocations);
-            onSearch(allSuggestions[selectedValue]);
+
+            const selectedCoordinates = newSelectedLocations.map(location => allSuggestions[location].split(' ').map(Number));
+            onSearch(selectedCoordinates);
+
+            setSearch('');
         }
-        setSearch('');
     };
 
     const handleRemoveLocation = (location) => {
         const newSelectedLocations = selectedLocations.filter(l => l !== location);
         setSelectedLocations(newSelectedLocations);
+
+        const selectedCoordinates = newSelectedLocations.map(location => allSuggestions[location].split(' ').map(Number));
+        onSearch(selectedCoordinates);
     };
 
     return (
@@ -75,5 +82,4 @@ function SearchBar({ onSearch }) {
         </div>
     );
 }
-
 export default SearchBar;
