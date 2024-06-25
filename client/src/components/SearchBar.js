@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 
-function SearchBar({onSearch}) {
+function SearchBar({ onSearch }) {
     const [search, setSearch] = useState('');
     const [allSuggestions, setAllSuggestions] = useState({});
+    const [selectedLocations, setSelectedLocations] = useState([]);
 
     useEffect(() => {
         setAllSuggestions({
@@ -23,12 +24,21 @@ function SearchBar({onSearch}) {
 
     const handleSelectChange = (event) => {
         const selectedValue = event.target.value;
-        setSearch(selectedValue);
-        onSearch(allSuggestions[selectedValue]);
+        if (!selectedLocations.includes(selectedValue)) {
+            const newSelectedLocations = [...selectedLocations, selectedValue];
+            setSelectedLocations(newSelectedLocations);
+            onSearch(allSuggestions[selectedValue]);
+        }
+        setSearch('');
+    };
+
+    const handleRemoveLocation = (location) => {
+        const newSelectedLocations = selectedLocations.filter(l => l !== location);
+        setSelectedLocations(newSelectedLocations);
     };
 
     return (
-        <div className='search-bar w-full flex justify-center'>
+        <div className='search-bar w-full flex flex-col items-center'>
             <select
                 className='w-1/2 h-12 border-2 border-amber-950 text-center rounded-2xl focus:border-amber-950 my-2'
                 value={search}
@@ -36,11 +46,32 @@ function SearchBar({onSearch}) {
             >
                 <option value='' disabled>Select a location</option>
                 {Object.keys(allSuggestions).map((location) => (
-                    <option key={location} value={location}>
+                    <option
+                        key={location}
+                        value={location}
+                        disabled={selectedLocations.includes(location)}
+                        style={{ backgroundColor: selectedLocations.includes(location) ? 'green' : 'white' }}
+                    >
                         {location}
                     </option>
                 ))}
             </select>
+            <div className='selected-locations w-1/2 mt-2 flex overflow-x-auto'>
+                {selectedLocations.map((location, index) => (
+                    <div
+                        key={index}
+                        className='selected-location flex-shrink-0 flex justify-between items-center border-2 border-amber-950 p-2 m-1 rounded'
+                    >
+                        <span>{location}</span>
+                        <button
+                            className='remove-location bg-red-500 text-white p-1 rounded ml-2'
+                            onClick={() => handleRemoveLocation(location)}
+                        >
+                            Remove
+                        </button>
+                    </div>
+                ))}
+            </div>
         </div>
     );
 }
