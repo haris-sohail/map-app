@@ -2,11 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { MapContainer, Marker, TileLayer, useMap, GeoJSON } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Icon } from 'leaflet';
-import geojsonData from '../geojson/PAK_adm2.json'
+import geojsonData from '../geojson/PAK_adm3.json'
 
 function Map({ locations }) {
-    const [regionColors, setRegionColors] = useState({});
-
     const icon = new Icon({
         iconUrl: 'https://cdn-icons-png.flaticon.com/128/447/447031.png',
         iconSize: [40, 40]
@@ -51,7 +49,7 @@ function Map({ locations }) {
 
     return (
         <div>
-            <MapContainer center={[centerLocation[0], centerLocation[1]]} zoom={6} className='h-screen'>
+            <MapContainer center={[centerLocation[0], centerLocation[1]]} zoom={8} className='h-screen'>
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url='https://tile.openstreetmap.org/{z}/{x}/{y}.png'
