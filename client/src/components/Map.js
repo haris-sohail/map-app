@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MapContainer, Marker, TileLayer, useMap, GeoJSON } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Icon } from 'leaflet';
-import geojsonData from '../geojson/regions.json';
+import geojsonData from '../geojson/PAK_adm2.json'
 
 function Map({ locations }) {
+    const [regionColors, setRegionColors] = useState({});
+
     const icon = new Icon({
         iconUrl: 'https://cdn-icons-png.flaticon.com/128/447/447031.png',
         iconSize: [40, 40]
@@ -33,23 +35,43 @@ function Map({ locations }) {
         return inside;
     };
 
+    const getRandomColor = () => {
+        const letters = '0123456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 5; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        color += Math.floor(Math.random() * 10);
+        return color;
+    };
+
     const getRegionStyle = (feature) => {
         const coordinates = feature.geometry.coordinates[0];
         const selected = locations.some(location =>
             pointInPolygon(location, coordinates)
         );
 
+        // If the region is selected and doesn't have a color, assign a new random color
+        if (selected && !regionColors[feature.properties.shapeName]) {
+            setRegionColors((prevColors) => ({
+                ...prevColors,
+                [feature.properties.shapeName]: getRandomColor()
+            }));
+        }
+
+        const color = regionColors[feature.properties.shapeName] || 'blue';
+
         return {
-            color: selected ? 'red' : 'blue',
+            color: selected ? color : 'purple',
             weight: 2,
-            fillColor: selected ? 'green' : 'yellow',
+            fillColor: selected ? color : 'blue',
             fillOpacity: 0.2
         };
     };
 
     return (
         <div>
-            <MapContainer center={[centerLocation[0], centerLocation[1]]} zoom={16} className='h-screen'>
+            <MapContainer center={[centerLocation[0], centerLocation[1]]} zoom={6} className='h-screen'>
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url='https://tile.openstreetmap.org/{z}/{x}/{y}.png'
