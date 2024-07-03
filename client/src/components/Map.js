@@ -3,6 +3,7 @@ import { MapContainer, Marker, TileLayer, useMap, GeoJSON } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css';
 import { Icon } from 'leaflet';
 import geojsonData from '../geojson/PAK_adm4_reduced.json'
+import geojsonDataChina from '../geojson/gadm41_CHN_0.json'
 
 function Map({ locations }) {
     const icon = new Icon({
@@ -47,6 +48,20 @@ function Map({ locations }) {
         };
     };
 
+    const getRegionStyleChina = (feature) => {
+        const coordinates = feature.geometry.coordinates[0];
+        const selected = locations.some(location =>
+            pointInPolygon(location, coordinates)
+        );
+
+        return {
+            color: selected ? 'blue' : 'green',
+            weight: 2,
+            fillColor: selected ? 'orange' : 'yellow',
+            fillOpacity: 0.2
+        };
+    };
+
     return (
         <div>
             <MapContainer center={[centerLocation[0], centerLocation[1]]} zoom={8} className='h-screen'>
@@ -59,6 +74,7 @@ function Map({ locations }) {
                     <Marker key={index} position={[location[0], location[1]]} icon={icon} />
                 ))}
                 <GeoJSON data={geojsonData} style={getRegionStyle} />
+                {/* <GeoJSON data={geojsonDataChina} style={getRegionStyleChina} /> */}
             </MapContainer>
         </div>
     );
