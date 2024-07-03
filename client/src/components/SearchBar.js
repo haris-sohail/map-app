@@ -17,7 +17,9 @@ function SearchBar({ onSearch }) {
             'Naran': '34.9116 73.3085',
             'Kalam': '35.5729 72.5574',
             'Swat': '35.3830 72.4258',
-            'Supreme Court of Pakistan': '33.72806 73.09861'
+            'Supreme Court of Pakistan': '33.72806 73.09861',
+            'Dera Ghazi Khan Tehsil': '30.0561 70.6348',
+            'Kahuta Tehsil': '33.5833 73.3833',
         });
     }, []);
 
