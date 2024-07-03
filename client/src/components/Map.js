@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { MapContainer, Marker, TileLayer, useMap, GeoJSON } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Icon } from 'leaflet';
-import geojsonData from '../geojson/PAK_adm4.json'
+import geojsonData from '../geojson/PAK_adm4_reduced.json'
 
 function Map({ locations }) {
     const icon = new Icon({

@@ -20,6 +20,7 @@ function SearchBar({ onSearch }) {
             'Supreme Court of Pakistan': '33.72806 73.09861',
             'Dera Ghazi Khan Tehsil': '30.0561 70.6348',
             'Kahuta Tehsil': '33.5833 73.3833',
+            'Ladakh': '34.1526 77.5770',
         });
     }, []);
 
